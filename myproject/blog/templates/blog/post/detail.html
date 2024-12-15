@@ -1,0 +1,65 @@
+{% extends "blog/base.html" %}
+<!--{#% load blog_tags %}-->
+{% load crispy_forms_tags %}
+{% block title %}{{ post.title }}{% endblock %}
+{% block content %}
+
+    <h1 class="card-header">{{ post.title }}</h1>
+    <p class="text-muted fst-italic mb-2">
+        Published {{ post.publish }} by {{ post.author }}
+    </p>
+        <p class="data_post"> {{ post.body }} </p>
+        <!--
+    <p>
+        <a href="{#% url 'blog:post_share' post.id %}">Поділитися</a>
+    </p>
+    -->
+    <p>
+        <a href="{% url 'blog:post_update' post.id %}">Оновити</a>
+    </p>
+    <p>
+        <a href="{% url 'blog:post_delete' post.id %}">Видалити</a>
+    </p>
+ <!--
+<h2>Similar posts</h2>
+{#% for post in similar_posts %}
+    <p>
+        <a href="{#{ post.get_absolute_url }}">{#{ post.title }}</a>
+    </p>
+{#% empty %}
+    There are no similar posts yet.
+{#% endfor %}
+-->
+{% with comments.count as total_comments %}
+    <h2>
+        {{ total_comments }} comment {{ total_comments|pluralize }}
+    </h2>
+{% endwith %}
+{% for comment in comments %}
+
+        <div class="fw-bold">
+            Comment {{ forloop.counter }} by {{ comment.name }}
+        </div>
+        <div class="text-muted fst-italic mb-2">
+            {{ comment.created }}
+        </div>
+        <div class="fw-bold">
+            {{ comment.body|linebreaks }}
+        </div>
+
+{% empty %}
+    <p>There are no comments yet.</p>
+{% endfor %}
+{% if new_comment %}
+    <h2>Your comment has been added.</h2>
+{% else %}
+    <h2>Add a new comment</h2>
+    <form action="." method="post" class="mb-4">
+        {% crispy comment_form %}
+       <!-- {#{ comment_form.as_p }} -->
+        {% csrf_token %}
+        <p><input type="submit" value="Add comment"></p>
+    </form>
+{% endif %}
+
+{% endblock %}

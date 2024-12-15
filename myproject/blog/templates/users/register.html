@@ -1,0 +1,15 @@
+{% extends "blog/base.html" %}
+{% block content %}
+    <div class="content-section">
+        <form method="POST">
+            {{ form.as_ul }}
+            {% csrf_token %}
+            <div class="form-group">
+                <button class="badge bg-dark text-white ms-1 rounded-pill" type="submit">Реєстрація</button>
+            </div>
+        </form>
+        <div class="border-top pt-3">
+                Вже є аккаунт? <a class="badge bg-dark text-white ms-1 rounded-pill" href="{#% url 'login' %}">Вхід</a>
+        </div>
+    </div>
+{% endblock content %}

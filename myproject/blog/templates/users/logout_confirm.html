@@ -1,0 +1,10 @@
+{% extends "blog/base.html" %}
+{% block content %}
+    <h2>Ви дійсно хочете вийти з облікового запису</h2>
+    <div class="border-top pt-3">
+       <form action="{% url 'logout' %}" method="post">
+          {% csrf_token %}
+          <button class="navbar-brand ps-3" type="submit">Вийти</button>
+       </form>
+    </div>
+{% endblock content %}
